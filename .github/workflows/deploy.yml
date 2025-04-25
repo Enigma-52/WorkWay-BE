@@ -1,0 +1,36 @@
+name: Deploy to Google Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }} 
+
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker
+
+      - name: Build and Deploy to Cloud Run
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/workway .
+          
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/workway
+
+          gcloud run deploy workway \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/workway \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
