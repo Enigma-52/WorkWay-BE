@@ -39,4 +39,7 @@ jobs:
             --image us-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/backend/workway \
             --platform managed \
             --region us-central1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --port 8080 \
+            --timeout 300s \
+            --set-env-vars "NODE_ENV=production" \

@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 8080
 
 # Command to run your TypeScript server using ts-node
-CMD ["ts-node", "src/index.ts"]
+CMD ["ts-node", "src/server.ts"]
