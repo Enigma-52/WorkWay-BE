@@ -4,10 +4,10 @@
   "description": "Backend service for workway",
   "main": "index.js",
   "scripts": {
-  "start": "ts-node-dev src/server.ts",
-  "build": "tsc",
-  "start:prod": "node dist/server.js"
-},
+    "start": "ts-node-dev src/server.ts",
+    "build": "tsc",
+    "start:prod": "node dist/server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Work-Way/backend.git"
@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/Work-Way/backend#readme",
   "dependencies": {
+    "@prisma/client": "^6.6.0",
     "express": "^5.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.2",
+    "prisma": "^6.6.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   }
