@@ -17,7 +17,7 @@ RUN npm install -g ts-node typescript
 COPY . .
 
 # Expose the port that the app will run on (you can adjust this based on your app)
-EXPOSE 3000
+EXPOSE 8080
 
 # Command to run your TypeScript server using ts-node
 CMD ["ts-node", "src/index.ts"]
