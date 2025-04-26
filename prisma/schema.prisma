@@ -8,6 +8,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id Int @id @default(autoincrement())
+model Job {
+  id              String  @id @default(cuid())
+  job_id          String  @unique
+  title           String
+  company         String
+  company_img     String
+  absolute_url    String
+  location        String?
+  source          String
+  experienceLevel String
+  employmentType  String
+  domain          String
+  description     String
+  applicants      Int     @default(0)
+  isExpired       Boolean @default(false)
+
+  // Lever-specific fields
+  additional    Json?
+  lists         Json?
+  salaryRange   String?
+  workplaceType String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([updatedAt, id])
 }

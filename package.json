@@ -22,7 +22,9 @@
   "homepage": "https://github.com/Work-Way/backend#readme",
   "dependencies": {
     "@prisma/client": "^6.6.0",
-    "express": "^5.1.0"
+    "axios": "^1.9.0",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
