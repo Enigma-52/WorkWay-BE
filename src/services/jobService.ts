@@ -2,7 +2,7 @@ import prisma from '../db/db';
 
 export class JobService {
   static async getJobsPaginated(
-    lastPageMarker: string | undefined,
+    lastPageMarker: string | undefined, // should be a JSON string: { updatedAt: string, id: string }
     pageSize: number,
     filters: {
       title?: string;
@@ -18,39 +18,61 @@ export class JobService {
 
     // Add filters to the where clause
     if (filters.title) {
-      whereClause.title = { contains: filters.title };  // Partial match for title
+      whereClause.title = { contains: filters.title , mode: 'insensitive'  };
     }
     if (filters.company) {
-      whereClause.company = { equals: filters.company };  // Exact match for company
+      whereClause.company = { equals: filters.company };
     }
     if (filters.location) {
-      whereClause.location = { contains: filters.location };  // Partial match for location
+      whereClause.location = { contains: filters.location , mode: 'insensitive'  };
     }
     if (filters.experienceLevel) {
-      whereClause.experienceLevel = { equals: filters.experienceLevel };  // Exact match for experience level
+      whereClause.experienceLevel = { equals: filters.experienceLevel };
     }
     if (filters.employmentType) {
-      whereClause.employmentType = { equals: filters.employmentType };  // Exact match for employment type
+      whereClause.employmentType = { equals: filters.employmentType };
     }
     if (filters.domain) {
-      whereClause.domain = { equals: filters.domain };  // Exact match for domain
+      whereClause.domain = { equals: filters.domain };
     }
     if (filters.workplaceType) {
-      whereClause.workplaceType = { equals: filters.workplaceType };  // Exact match for workplace type
+      whereClause.workplaceType = { equals: filters.workplaceType };
     }
 
-    // Query the database with filters and pagination
+    // Handle pagination
+    let cursorFilter = {};
+    if (lastPageMarker) {
+      const { updatedAt, id } = JSON.parse(lastPageMarker);
+      cursorFilter = {
+        OR: [
+          { updatedAt: { lt: new Date(updatedAt) } },
+          {
+            updatedAt: new Date(updatedAt),
+            id: { lt: id },
+          },
+        ],
+      };
+    }
+
     const jobs = await prisma.job.findMany({
       where: {
         ...whereClause,
-        ...(lastPageMarker ? { id: { gt: lastPageMarker } } : {}),  // Add condition to fetch jobs after lastPageMarker
+        ...cursorFilter,
       },
       take: pageSize,
-      orderBy: { id: 'asc' },  // Ensure consistent ordering by job id
+      orderBy: [
+        { updatedAt: 'desc' },
+        { id: 'desc' },
+      ],
     });
 
-    // Determine the next page marker based on the last job's id
-    const nextPageMarker = jobs.length > 0 ? jobs[jobs.length - 1].id : null;
+    const nextPageMarker =
+      jobs.length > 0
+        ? JSON.stringify({
+            updatedAt: jobs[jobs.length - 1].updatedAt,
+            id: jobs[jobs.length - 1].id,
+          })
+        : null;
 
     return {
       jobs,

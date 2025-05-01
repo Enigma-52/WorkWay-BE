@@ -1,4 +1,3 @@
-// src/controllers/jobController.ts
 import { Request, Response } from 'express';
 import { JobService } from '../services/jobService';
 import { jobQuerySchema } from '../validators/jobValidators';  
