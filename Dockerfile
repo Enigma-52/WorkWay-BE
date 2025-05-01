@@ -4,12 +4,15 @@ FROM node:20
 # Set working directory
 WORKDIR /app
 
-# Copy package.json files and install dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the code
+# Copy the entire project
 COPY . .
+
+# Run Prisma generate to create the Prisma client
+RUN npx prisma generate
 
 # Compile TypeScript to JavaScript
 RUN npm run build
@@ -17,5 +20,5 @@ RUN npm run build
 # Expose the port
 EXPOSE 8080
 
-# Run the compiled JavaScript
+# Start the server
 CMD ["node", "dist/server.js"]
