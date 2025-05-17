@@ -42,4 +42,3 @@ jobs:
             --allow-unauthenticated \
             --port 8080 \
             --timeout 300s \
-            --set-env-vars "NODE_ENV=production" \
