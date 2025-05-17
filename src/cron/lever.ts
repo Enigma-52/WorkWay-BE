@@ -106,7 +106,7 @@ const saveJobsToSupabase = async (jobs: any[]) => {
 
 
 const fetchAllJobs = async () => {
-  for (const companyName of companyNameList.slice(0, 10)) {
+  for (const companyName of companyNameList) {
     const url = `https://api.lever.co/v0/postings/${companyName.toLowerCase()}?mode=json`;
 
     try {
@@ -135,7 +135,5 @@ const lever = async () => {
     console.error('❌ Unexpected error in Lever fetcher:', err);
   }
 };
-
-lever();
 
 export default lever;

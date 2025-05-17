@@ -4,7 +4,7 @@
     "rootDir": "./src",        // Set the root directory for TypeScript source files
     "esModuleInterop": true,
     "module": "commonjs",      // CommonJS is generally used for Node.js
-    "target": "ES6",           // Specify the target ECMAScript version
+    "target": "ES2020",           // Specify the target ECMAScript version
     "strict": true,            // Enable all strict type-checking options
     "skipLibCheck": true       // Skip type checking of declaration files (faster builds)
   },

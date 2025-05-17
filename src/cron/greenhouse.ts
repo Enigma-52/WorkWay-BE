@@ -183,7 +183,7 @@ const greenhouse = async (): Promise<void> => {
   try {
     console.log("🚀 Starting Greenhouse Job Fetcher...");
     
-    for (const company of companies.slice(0, 10)) {
+    for (const company of companies) {
       console.log(`🔍 Fetching jobs for ${company}...`);
       const rawJobs = await fetchGreenhouseJobs(company);
       
@@ -207,10 +207,5 @@ const greenhouse = async (): Promise<void> => {
     await prisma.$disconnect();
   }
 };
-
-greenhouse().catch(error => {
-  console.error('Unhandled error in greenhouse:', error);
-  process.exit(1);
-});
 
 export default greenhouse;
